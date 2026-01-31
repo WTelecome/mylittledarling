@@ -62,7 +62,7 @@
     <h2>Sənə yazdığım məktub ❤️</h2>
     <div class="content">
       Əziz Yasemin,  
-      <!-- Buraya tam məktubunu yapışdır -->
+      <!-- Buraya tam məktubunu əlavə et -->
       Səni ilk gördüyüm andan...  
       Səni çox sevirəm,  
       [Sənin adın]
@@ -72,8 +72,12 @@
 
   <!-- Gizli Yol – 1-ci sual -->
   <div id="secret-step1" class="section hidden">
+    <div class="timer-container">
+      <div class="timer-ring" id="timer-ring1">
+        <div class="timer-text" id="timer1">02:00</div>
+      </div>
+    </div>
     <h2>Gizli Yol Başladı 💕</h2>
-    <div class="timer" id="timer1">Qalan vaxt: 02:00</div>
     <p class="hint">İlk görüş yerimiz harada idi?</p>
     <input type="text" id="answer1" placeholder="Cavabını yaz..." />
     <button onclick="checkAnswer(1)">Davam Et</button>
@@ -82,19 +86,27 @@
 
   <!-- 2-ci sual -->
   <div id="secret-step2" class="section hidden">
+    <div class="timer-container">
+      <div class="timer-ring" id="timer-ring2">
+        <div class="timer-text" id="timer2">02:00</div>
+      </div>
+    </div>
     <h2>Bir az daha yaxın... ❤️</h2>
-    <div class="timer" id="timer2">Qalan vaxt: 02:00</div>
     <p class="hint">Mənə ilk dəfə müraciət etdiyin ləqəb nə idi?</p>
     <input type="text" id="answer2" placeholder="Cavabını yaz..." />
     <button onclick="checkAnswer(2)">Növbəti</button>
     <button onclick="backToMain()">Geri qayıt</button>
   </div>
 
-  <!-- 3-cü sual -->
+  <!-- 3-cü sual – düzəldilmiş mətn -->
   <div id="secret-step3" class="section hidden">
+    <div class="timer-container">
+      <div class="timer-ring" id="timer-ring3">
+        <div class="timer-text" id="timer3">02:00</div>
+      </div>
+    </div>
     <h2>Davam edirik... 🥰</h2>
-    <div class="timer" id="timer3">Qalan vaxt: 02:00</div>
-    <p class="hint">Sənin mənə ilk dəfə müraciət etdiyin ləqəb nə idi?</p>
+    <p class="hint">Mənim sənə ilk dəfə müraciət etdiyim ləqəb nə idi?</p>
     <input type="text" id="answer3" placeholder="Cavabını yaz..." />
     <button onclick="checkAnswer(3)">Növbəti</button>
     <button onclick="backToMain()">Geri qayıt</button>
@@ -102,8 +114,12 @@
 
   <!-- 4-cü sual -->
   <div id="secret-step4" class="section hidden">
+    <div class="timer-container">
+      <div class="timer-ring" id="timer-ring4">
+        <div class="timer-text" id="timer4">02:00</div>
+      </div>
+    </div>
     <h2>Bir az da xatırla... 💭</h2>
-    <div class="timer" id="timer4">Qalan vaxt: 02:00</div>
     <p class="hint">Bizim unudulmaz görüş yerimiz haradır?</p>
     <input type="text" id="answer4" placeholder="Cavabını yaz..." />
     <button onclick="checkAnswer(4)">Növbəti</button>
@@ -112,8 +128,12 @@
 
   <!-- 5-ci sual -->
   <div id="secret-step5" class="section hidden">
+    <div class="timer-container">
+      <div class="timer-ring" id="timer-ring5">
+        <div class="timer-text" id="timer5">02:00</div>
+      </div>
+    </div>
     <h2>Son addım, sevgilim... 🌟</h2>
-    <div class="timer" id="timer5">Qalan vaxt: 02:00</div>
     <p class="hint">Biz kimə bənzəyirik?</p>
     <input type="text" id="answer5" placeholder="Cavabını yaz..." />
     <button onclick="checkAnswer(5)">Aç Hədiyyəni</button>
@@ -138,29 +158,35 @@
       if (currentTimerInterval) clearInterval(currentTimerInterval);
 
       let timeLeft = 120;
-      const timerElement = document.getElementById(`timer${step}`);
+      const timerText = document.getElementById(`timer${step}`);
+      const timerRing = document.getElementById(`timer-ring${step}`);
+
+      // Inputu sıfırla (geri qayıdıb yenidən girəndə boş olsun)
+      const input = document.getElementById(`answer${step}`);
+      if (input) input.value = '';
 
       currentTimerInterval = setInterval(() => {
         timeLeft--;
         const minutes = Math.floor(timeLeft / 60);
         const seconds = timeLeft % 60;
-        timerElement.textContent = `Qalan vaxt: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        timerText.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+        const progress = (timeLeft / 120) * 360;
+        timerRing.style.setProperty('--progress', `${progress}deg`);
 
         if (timeLeft <= 10) {
-          timerElement.classList.add('warning');
+          timerRing.classList.add('warning');
         }
 
         if (timeLeft <= 0) {
           clearInterval(currentTimerInterval);
-          timerElement.textContent = "Vaxt bitdi...";
+          timerText.textContent = "00:00";
           const msg = document.createElement('div');
           msg.className = 'timeout-message';
           msg.innerHTML = 'Biraz daha cəld olmalı idin... Amma səni sevirəm ❤️';
-          timerElement.parentNode.insertBefore(msg, timerElement.nextSibling);
+          timerRing.parentNode.parentNode.insertBefore(msg, timerRing.parentNode.nextSibling);
           
-          setTimeout(() => {
-            backToMain();
-          }, 3000);
+          setTimeout(() => backToMain(), 3000);
         }
       }, 1000);
     }
@@ -203,28 +229,19 @@
 
       if (step === 1) {
         answer = document.getElementById('answer1').value.trim().toLowerCase();
-        correct = answer.includes('şahmat kursunun yanı') || 
-                  answer.includes('şahmat kursu yanı') || 
-                  answer.includes('shahmat kursunun yanı');
-      } 
-      else if (step === 2) {
+        correct = answer.includes('şahmat kursunun yanı') || answer.includes('şahmat kursu yanı') || answer.includes('shahmat kursunun yanı');
+      } else if (step === 2) {
         answer = document.getElementById('answer2').value.trim().toLowerCase();
         correct = answer.includes('bilge');
-      } 
-      else if (step === 3) {
+      } else if (step === 3) {
         answer = document.getElementById('answer3').value.trim().toLowerCase();
         correct = answer.includes('prenses');
-      } 
-      else if (step === 4) {
+      } else if (step === 4) {
         answer = document.getElementById('answer4').value.trim().toLowerCase();
-        correct = answer.includes('yasamal parkı') || 
-                  answer.includes('yasamal') || 
-                  answer.includes('yasamal park');
-      } 
-      else if (step === 5) {
+        correct = answer.includes('yasamal parkı') || answer.includes('yasamal') || answer.includes('yasamal park');
+      } else if (step === 5) {
         answer = document.getElementById('answer5').value.trim().toLowerCase();
-        correct = answer.includes('dudu') && answer.includes('bubu') || 
-                  answer.includes('dudu və bubu');
+        correct = answer.includes('dudu') && answer.includes('bubu') || answer.includes('dudu və bubu');
       }
 
       if (correct) {
