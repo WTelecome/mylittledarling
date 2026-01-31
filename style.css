@@ -1,0 +1,122 @@
+body {
+  margin: 0;
+  font-family: 'Lora', serif;
+  background: linear-gradient(135deg, #fffaf0 0%, #ffebee 100%); /* Yumşaq çəhrayı-ağ gradient */
+  color: #4a2c2a;
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.5rem;
+  color: #c2185b;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 5px rgba(194, 24, 91, 0.2);
+}
+
+.subtitle {
+  font-size: 1.6rem;
+  color: #6d4c41;
+  margin-bottom: 60px;
+  font-style: italic;
+}
+
+.icons {
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+  flex-wrap: wrap;
+}
+
+.icon {
+  cursor: pointer;
+  transition: all 0.4s ease;
+  padding: 20px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 10px 30px rgba(194, 24, 91, 0.15);
+}
+
+.icon:hover {
+  transform: translateY(-15px) scale(1.15);
+  box-shadow: 0 20px 40px rgba(194, 24, 91, 0.3);
+}
+
+.icon i {
+  color: #e91e63;
+  transition: color 0.3s;
+}
+
+.icon:hover i {
+  color: #ad1457;
+}
+
+.icon p {
+  margin-top: 15px;
+  font-size: 1.4rem;
+  color: #5d4037;
+  font-weight: 500;
+}
+
+.hidden { display: none !important; }
+
+.section {
+  max-width: 90%;
+  padding: 40px 20px;
+  animation: fadeIn 0.8s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.8rem;
+  color: #c2185b;
+  margin-bottom: 30px;
+}
+
+.content {
+  font-size: 1.4rem;
+  line-height: 1.8;
+  max-width: 800px;
+  margin: 0 auto 40px;
+  text-align: left;
+  color: #3e2723;
+}
+
+.surprise-image {
+  max-width: 90%;
+  max-height: 65vh;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+  margin: 30px auto;
+  display: block;
+  border: 8px solid white;
+}
+
+button {
+  margin-top: 40px;
+  padding: 15px 50px;
+  font-size: 1.3rem;
+  font-family: 'Lora', serif;
+  background: linear-gradient(45deg, #e91e63, #c2185b);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(194, 24, 91, 0.3);
+  transition: all 0.3s;
+}
+
+button:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(194, 24, 91, 0.4);
+}
