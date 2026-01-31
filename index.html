@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body id="body">
-  <div id="hearts-container"></div> <!-- Ürək uçuşu üçün konteyner -->
+  <div id="hearts-container"></div>
 
   <div id="main-screen">
     <h1>Sənin Üçün Bir Neçə Hədiyyə Hazırlamışam ❤️</h1>
@@ -38,7 +38,7 @@
     </div>
   </div>
 
-  <!-- Şəkil bölməsi -->
+  <!-- Şəkil -->
   <div id="image" class="section hidden">
     <h2>Bizim xüsusi anımız 📸</h2>
     <img src="sekil.jpg" alt="Sənin şəklin" class="surprise-image"/>
@@ -46,7 +46,7 @@
     <button onclick="backToMain()">Geri qayıt</button>
   </div>
 
-  <!-- Musiqi bölməsi -->
+  <!-- Musiqi -->
   <div id="music" class="section hidden">
     <h2>Sənə xüsusi hazırlanmış mahnı 🎶</h2>
     <audio controls>
@@ -57,14 +57,13 @@
     <button onclick="backToMain()">Geri qayıt</button>
   </div>
 
-  <!-- Məktub bölməsi -->
+  <!-- Məktub -->
   <div id="letter" class="section hidden">
     <h2>Sənə yazdığım məktub ❤️</h2>
     <div class="content">
-      <!-- Buraya öz məktub mətnini tam yapışdır -->
       Əziz Yasemin,  
+      <!-- Buraya tam məktubunu yapışdır -->
       Səni ilk gördüyüm andan...  
-      (buraya tam məktubunu əlavə et)  
       Səni çox sevirəm,  
       [Sənin adın]
     </div>
@@ -74,6 +73,7 @@
   <!-- Gizli Yol – 1-ci sual -->
   <div id="secret-step1" class="section hidden">
     <h2>Gizli Yol Başladı 💕</h2>
+    <div class="timer" id="timer1">Qalan vaxt: 02:00</div>
     <p class="hint">İlk görüş yerimiz harada idi?</p>
     <input type="text" id="answer1" placeholder="Cavabını yaz..." />
     <button onclick="checkAnswer(1)">Davam Et</button>
@@ -83,6 +83,7 @@
   <!-- 2-ci sual -->
   <div id="secret-step2" class="section hidden">
     <h2>Bir az daha yaxın... ❤️</h2>
+    <div class="timer" id="timer2">Qalan vaxt: 02:00</div>
     <p class="hint">Mənə ilk dəfə müraciət etdiyin ləqəb nə idi?</p>
     <input type="text" id="answer2" placeholder="Cavabını yaz..." />
     <button onclick="checkAnswer(2)">Növbəti</button>
@@ -92,6 +93,7 @@
   <!-- 3-cü sual -->
   <div id="secret-step3" class="section hidden">
     <h2>Davam edirik... 🥰</h2>
+    <div class="timer" id="timer3">Qalan vaxt: 02:00</div>
     <p class="hint">Sənin mənə ilk dəfə müraciət etdiyin ləqəb nə idi?</p>
     <input type="text" id="answer3" placeholder="Cavabını yaz..." />
     <button onclick="checkAnswer(3)">Növbəti</button>
@@ -101,6 +103,7 @@
   <!-- 4-cü sual -->
   <div id="secret-step4" class="section hidden">
     <h2>Bir az da xatırla... 💭</h2>
+    <div class="timer" id="timer4">Qalan vaxt: 02:00</div>
     <p class="hint">Bizim unudulmaz görüş yerimiz haradır?</p>
     <input type="text" id="answer4" placeholder="Cavabını yaz..." />
     <button onclick="checkAnswer(4)">Növbəti</button>
@@ -110,13 +113,14 @@
   <!-- 5-ci sual -->
   <div id="secret-step5" class="section hidden">
     <h2>Son addım, sevgilim... 🌟</h2>
+    <div class="timer" id="timer5">Qalan vaxt: 02:00</div>
     <p class="hint">Biz kimə bənzəyirik?</p>
     <input type="text" id="answer5" placeholder="Cavabını yaz..." />
     <button onclick="checkAnswer(5)">Aç Hədiyyəni</button>
     <button onclick="backToMain()">Geri qayıt</button>
   </div>
 
-  <!-- Final gizli mesaj -->
+  <!-- Final mesaj -->
   <div id="secret-final" class="section hidden">
     <div class="final-message">
       <h2>Sən Bu Səhifəni Aça Bildinsə</h2>
@@ -128,13 +132,61 @@
   </div>
 
   <script>
+    let currentTimerInterval = null;
+
+    function startTimer(step) {
+      if (currentTimerInterval) clearInterval(currentTimerInterval);
+
+      let timeLeft = 120;
+      const timerElement = document.getElementById(`timer${step}`);
+
+      currentTimerInterval = setInterval(() => {
+        timeLeft--;
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        timerElement.textContent = `Qalan vaxt: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+        if (timeLeft <= 10) {
+          timerElement.classList.add('warning');
+        }
+
+        if (timeLeft <= 0) {
+          clearInterval(currentTimerInterval);
+          timerElement.textContent = "Vaxt bitdi...";
+          const msg = document.createElement('div');
+          msg.className = 'timeout-message';
+          msg.innerHTML = 'Biraz daha cəld olmalı idin... Amma səni sevirəm ❤️';
+          timerElement.parentNode.insertBefore(msg, timerElement.nextSibling);
+          
+          setTimeout(() => {
+            backToMain();
+          }, 3000);
+        }
+      }, 1000);
+    }
+
+    function stopTimer() {
+      if (currentTimerInterval) {
+        clearInterval(currentTimerInterval);
+        currentTimerInterval = null;
+      }
+    }
+
     function showSection(id) {
       document.getElementById('main-screen').classList.add('hidden');
       document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
       document.getElementById(id).classList.remove('hidden');
+
+      if (id.startsWith('secret-step')) {
+        const step = id.replace('secret-step', '');
+        startTimer(step);
+      } else {
+        stopTimer();
+      }
     }
 
     function backToMain() {
+      stopTimer();
       document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
       document.getElementById('main-screen').classList.remove('hidden');
       document.getElementById('body').style.background = "linear-gradient(135deg, #fffaf0 0%, #ffebee 100%)";
@@ -176,6 +228,7 @@
       }
 
       if (correct) {
+        stopTimer();
         if (step === 1) showSection('secret-step2');
         if (step === 2) showSection('secret-step3');
         if (step === 3) showSection('secret-step4');
@@ -190,7 +243,6 @@
       }
     }
 
-    // Ürək animasiyası
     function startHearts() {
       const container = document.getElementById('hearts-container');
       for (let i = 0; i < 30; i++) {
