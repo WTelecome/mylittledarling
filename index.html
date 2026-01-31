@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sənə Xüsusi Sürpriz ❤️</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <!-- Google Fonts: Playfair Display (başlıq) + Lora (mətn) -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css"/>
 </head>
@@ -29,10 +28,15 @@
         <i class="fas fa-envelope fa-6x"></i>
         <p>Məktub</p>
       </div>
+      
+      <div class="icon" onclick="showSecretPrompt()">
+        <i class="fas fa-lock fa-6x"></i>
+        <p>Gizli Hədiyyə</p>
+      </div>
     </div>
   </div>
 
-  <!-- Şəkil bölməsi -->
+  <!-- Şəkil -->
   <div id="image" class="section hidden">
     <h2>Bizim xüsusi anımız 📸</h2>
     <img src="sekil.jpg" alt="Sənin şəklin" class="surprise-image"/>
@@ -40,7 +44,7 @@
     <button onclick="backToMain()">Geri qayıt</button>
   </div>
 
-  <!-- Musiqi bölməsi -->
+  <!-- Musiqi -->
   <div id="music" class="section hidden">
     <h2>Sənə xüsusi hazırlanmış mahnı 🎶</h2>
     <audio controls>
@@ -51,31 +55,82 @@
     <button onclick="backToMain()">Geri qayıt</button>
   </div>
 
-  <!-- Məktub bölməsi -->
+  <!-- Məktub -->
   <div id="letter" class="section hidden">
     <h2>Sənə yazdığım məktub ❤️</h2>
     <div class="content">
-      <!-- Buraya öz məktubunu tam yapışdır -->
       Əziz [Adı],  
-      
+      <!-- Buraya tam məktubunu yapışdır -->
       Səni ilk gördüyüm andan...  
-      (buraya məktub mətnini əlavə et, <br> ilə sətir keç)  
-      
       Səni çox sevirəm,  
       [Sənin adın]  
     </div>
     <button onclick="backToMain()">Geri qayıt</button>
   </div>
 
+  <!-- İlk şifrə prompt (Gizli Hədiyyə) -->
+  <div id="secret-prompt" class="section hidden">
+    <h2>Gizli Hədiyyəyə Xoş Gəldin 🔒</h2>
+    <p class="hint">Şifrəni daxil et:</p>
+    <p class="small-hint">Xatırladıcı: Mənə ilk səslənişin</p>
+    <input type="password" id="password1" placeholder="Şifrəni yaz..." />
+    <button onclick="checkFirstPassword()">Davam Et</button>
+    <button onclick="backToMain()">Geri qayıt</button>
+  </div>
+
+  <!-- İkinci şifrə prompt -->
+  <div id="secret-prompt2" class="section hidden">
+    <h2>Bir addım qaldı... 💕</h2>
+    <p class="hint">İkinci şifrəni daxil et:</p>
+    <p class="small-hint">Xatırladıcı: Sənə səslənişim</p>
+    <input type="password" id="password2" placeholder="Şifrəni yaz..." />
+    <button onclick="checkSecondPassword()">Aç</button>
+    <button onclick="backToMain()">Geri qayıt</button>
+  </div>
+
+  <!-- Final gizli mesaj -->
+  <div id="secret-final" class="section hidden">
+    <div class="final-message">
+      <h2>Sən Bu Səhifəni Aça Bildinsə</h2>
+      <p>Deməli Məni Çox Sevirsən</p>
+      <p class="love-text">və Bilməlisən ki</p>
+      <p class="love-text big">Məndə Səni Çoox Sevirəm ❤️</p>
+    </div>
+    <button onclick="backToMain()">Ana səhifəyə qayıt</button>
+  </div>
+
   <script>
     function showSection(id) {
       document.getElementById('main-screen').classList.add('hidden');
+      document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
       document.getElementById(id).classList.remove('hidden');
     }
 
+    function showSecretPrompt() {
+      showSection('secret-prompt');
+    }
+
     function backToMain() {
-      document.querySelectorAll('.section').forEach(sec => sec.classList.add('hidden'));
+      document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
       document.getElementById('main-screen').classList.remove('hidden');
+    }
+
+    function checkFirstPassword() {
+      const pass = document.getElementById('password1').value.trim();
+      if (pass.toLowerCase() === 'bilge') {
+        showSection('secret-prompt2');
+      } else {
+        alert('Şifrə yanlışdır... Yenidən cəhd et ❤️');
+      }
+    }
+
+    function checkSecondPassword() {
+      const pass = document.getElementById('password2').value.trim();
+      if (pass.toLowerCase() === 'prenses') {
+        showSection('secret-final');
+      } else {
+        alert('Şifrə yanlışdır... Bir az da düşün ❤️');
+      }
     }
   </script>
 </body>
