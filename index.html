@@ -8,7 +8,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css"/>
 </head>
-<body>
+<body id="body">
+  <div id="hearts-container"></div> <!-- Ürək uçuşu üçün konteyner -->
+
   <div id="main-screen">
     <h1>Sənin Üçün Bir Neçə Hədiyyə Hazırlamışam ❤️</h1>
     <p class="subtitle">Hansını Seçmək İstəyirsən?</p>
@@ -29,14 +31,14 @@
         <p>Məktub</p>
       </div>
       
-      <div class="icon" onclick="showSecretPrompt()">
+      <div class="icon" onclick="startSecretPath()">
         <i class="fas fa-lock fa-6x"></i>
         <p>Gizli Hədiyyə</p>
       </div>
     </div>
   </div>
 
-  <!-- Şəkil -->
+  <!-- Şəkil bölməsi -->
   <div id="image" class="section hidden">
     <h2>Bizim xüsusi anımız 📸</h2>
     <img src="sekil.jpg" alt="Sənin şəklin" class="surprise-image"/>
@@ -44,7 +46,7 @@
     <button onclick="backToMain()">Geri qayıt</button>
   </div>
 
-  <!-- Musiqi -->
+  <!-- Musiqi bölməsi -->
   <div id="music" class="section hidden">
     <h2>Sənə xüsusi hazırlanmış mahnı 🎶</h2>
     <audio controls>
@@ -55,36 +57,62 @@
     <button onclick="backToMain()">Geri qayıt</button>
   </div>
 
-  <!-- Məktub -->
+  <!-- Məktub bölməsi -->
   <div id="letter" class="section hidden">
     <h2>Sənə yazdığım məktub ❤️</h2>
     <div class="content">
-      Əziz [Adı],  
-      <!-- Buraya tam məktubunu yapışdır -->
+      <!-- Buraya öz məktub mətnini tam yapışdır -->
+      Əziz Yasemin,  
       Səni ilk gördüyüm andan...  
+      (buraya tam məktubunu əlavə et)  
       Səni çox sevirəm,  
-      [Sənin adın]  
+      [Sənin adın]
     </div>
     <button onclick="backToMain()">Geri qayıt</button>
   </div>
 
-  <!-- İlk şifrə prompt (Gizli Hədiyyə) -->
-  <div id="secret-prompt" class="section hidden">
-    <h2>Gizli Hədiyyəyə Xoş Gəldin 🔒</h2>
-    <p class="hint">Şifrəni daxil et:</p>
-    <p class="small-hint">Xatırladıcı: Mənə ilk səslənişin</p>
-    <input type="password" id="password1" placeholder="Şifrəni yaz..." />
-    <button onclick="checkFirstPassword()">Davam Et</button>
+  <!-- Gizli Yol – 1-ci sual -->
+  <div id="secret-step1" class="section hidden">
+    <h2>Gizli Yol Başladı 💕</h2>
+    <p class="hint">İlk görüş yerimiz harada idi?</p>
+    <input type="text" id="answer1" placeholder="Cavabını yaz..." />
+    <button onclick="checkAnswer(1)">Davam Et</button>
     <button onclick="backToMain()">Geri qayıt</button>
   </div>
 
-  <!-- İkinci şifrə prompt -->
-  <div id="secret-prompt2" class="section hidden">
-    <h2>Bir addım qaldı... 💕</h2>
-    <p class="hint">İkinci şifrəni daxil et:</p>
-    <p class="small-hint">Xatırladıcı: Sənə səslənişim</p>
-    <input type="password" id="password2" placeholder="Şifrəni yaz..." />
-    <button onclick="checkSecondPassword()">Aç</button>
+  <!-- 2-ci sual -->
+  <div id="secret-step2" class="section hidden">
+    <h2>Bir az daha yaxın... ❤️</h2>
+    <p class="hint">Mənə ilk dəfə müraciət etdiyin ləqəb nə idi?</p>
+    <input type="text" id="answer2" placeholder="Cavabını yaz..." />
+    <button onclick="checkAnswer(2)">Növbəti</button>
+    <button onclick="backToMain()">Geri qayıt</button>
+  </div>
+
+  <!-- 3-cü sual -->
+  <div id="secret-step3" class="section hidden">
+    <h2>Davam edirik... 🥰</h2>
+    <p class="hint">Sənin mənə ilk dəfə müraciət etdiyin ləqəb nə idi?</p>
+    <input type="text" id="answer3" placeholder="Cavabını yaz..." />
+    <button onclick="checkAnswer(3)">Növbəti</button>
+    <button onclick="backToMain()">Geri qayıt</button>
+  </div>
+
+  <!-- 4-cü sual -->
+  <div id="secret-step4" class="section hidden">
+    <h2>Bir az da xatırla... 💭</h2>
+    <p class="hint">Bizim unudulmaz görüş yerimiz haradır?</p>
+    <input type="text" id="answer4" placeholder="Cavabını yaz..." />
+    <button onclick="checkAnswer(4)">Növbəti</button>
+    <button onclick="backToMain()">Geri qayıt</button>
+  </div>
+
+  <!-- 5-ci sual -->
+  <div id="secret-step5" class="section hidden">
+    <h2>Son addım, sevgilim... 🌟</h2>
+    <p class="hint">Biz kimə bənzəyirik?</p>
+    <input type="text" id="answer5" placeholder="Cavabını yaz..." />
+    <button onclick="checkAnswer(5)">Aç Hədiyyəni</button>
     <button onclick="backToMain()">Geri qayıt</button>
   </div>
 
@@ -106,31 +134,77 @@
       document.getElementById(id).classList.remove('hidden');
     }
 
-    function showSecretPrompt() {
-      showSection('secret-prompt');
-    }
-
     function backToMain() {
       document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
       document.getElementById('main-screen').classList.remove('hidden');
+      document.getElementById('body').style.background = "linear-gradient(135deg, #fffaf0 0%, #ffebee 100%)";
+      stopHearts();
     }
 
-    function checkFirstPassword() {
-      const pass = document.getElementById('password1').value.trim();
-      if (pass.toLowerCase() === 'bilge') {
-        showSection('secret-prompt2');
+    function startSecretPath() {
+      showSection('secret-step1');
+    }
+
+    function checkAnswer(step) {
+      let answer = '';
+      let correct = false;
+
+      if (step === 1) {
+        answer = document.getElementById('answer1').value.trim().toLowerCase();
+        correct = answer.includes('şahmat kursunun yanı') || 
+                  answer.includes('şahmat kursu yanı') || 
+                  answer.includes('shahmat kursunun yanı');
+      } 
+      else if (step === 2) {
+        answer = document.getElementById('answer2').value.trim().toLowerCase();
+        correct = answer.includes('bilge');
+      } 
+      else if (step === 3) {
+        answer = document.getElementById('answer3').value.trim().toLowerCase();
+        correct = answer.includes('prenses');
+      } 
+      else if (step === 4) {
+        answer = document.getElementById('answer4').value.trim().toLowerCase();
+        correct = answer.includes('yasamal parkı') || 
+                  answer.includes('yasamal') || 
+                  answer.includes('yasamal park');
+      } 
+      else if (step === 5) {
+        answer = document.getElementById('answer5').value.trim().toLowerCase();
+        correct = answer.includes('dudu') && answer.includes('bubu') || 
+                  answer.includes('dudu və bubu');
+      }
+
+      if (correct) {
+        if (step === 1) showSection('secret-step2');
+        if (step === 2) showSection('secret-step3');
+        if (step === 3) showSection('secret-step4');
+        if (step === 4) showSection('secret-step5');
+        if (step === 5) {
+          showSection('secret-final');
+          document.getElementById('body').style.background = "linear-gradient(135deg, #ffccd5, #ff9aa2)";
+          startHearts();
+        }
       } else {
-        alert('Şifrə yanlışdır... Yenidən cəhd et ❤️');
+        alert('Yanlış cavab... Yenidən cəhd et, xatırla bizi ❤️');
       }
     }
 
-    function checkSecondPassword() {
-      const pass = document.getElementById('password2').value.trim();
-      if (pass.toLowerCase() === 'prenses') {
-        showSection('secret-final');
-      } else {
-        alert('Şifrə yanlışdır... Bir az da düşün ❤️');
+    // Ürək animasiyası
+    function startHearts() {
+      const container = document.getElementById('hearts-container');
+      for (let i = 0; i < 30; i++) {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.innerHTML = '❤️';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+        container.appendChild(heart);
       }
+    }
+
+    function stopHearts() {
+      document.getElementById('hearts-container').innerHTML = '';
     }
   </script>
 </body>
