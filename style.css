@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: 'Lora', serif;
-  background: linear-gradient(135deg, #fffaf0 0%, #ffebee 100%); /* Yumşaq çəhrayı-ağ gradient */
+  background: linear-gradient(135deg, #fffaf0 0%, #ffebee 100%);
   color: #4a2c2a;
   text-align: center;
   min-height: 100vh;
@@ -119,4 +119,54 @@ button {
 button:hover {
   transform: translateY(-5px);
   box-shadow: 0 15px 30px rgba(194, 24, 91, 0.4);
+}
+
+/* Gizli bölmələr üçün əlavə stillər */
+#secret-prompt, #secret-prompt2, #secret-final {
+  background: rgba(255, 245, 245, 0.9);
+  border-radius: 20px;
+  padding: 50px 30px;
+  box-shadow: 0 15px 40px rgba(194, 24, 91, 0.25);
+}
+
+input[type="password"] {
+  width: 80%;
+  max-width: 400px;
+  padding: 15px;
+  margin: 20px auto;
+  display: block;
+  font-size: 1.3rem;
+  border: 2px solid #e91e63;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.small-hint {
+  font-size: 1.1rem;
+  color: #8d6e63;
+  font-style: italic;
+  margin: 10px 0 30px;
+}
+
+.final-message {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.final-message h2 {
+  font-size: 3rem;
+  color: #c2185b;
+}
+
+.love-text {
+  font-size: 2.2rem;
+  margin: 15px 0;
+  color: #4a2c2a;
+}
+
+.love-text.big {
+  font-size: 3.5rem;
+  font-weight: bold;
+  color: #e91e63;
+  text-shadow: 2px 2px 8px rgba(233, 30, 99, 0.4);
 }
