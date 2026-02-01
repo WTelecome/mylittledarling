@@ -144,25 +144,27 @@ body {
   animation: fadeIn 1.2s forwards;
 }
 
-/* Başlıq və seçim yazıları – premium tərz */
+/* Oxunaqlı və premium başlıq */
 .subtitle {
-  font-family: 'Great Vibes', cursive;
-  font-size: 3.2rem;
-  font-weight: 400;
-  background: linear-gradient(90deg, #ff69b4, #ffd700, #ff69b4);
+  font-family: 'Playfair Display', serif;
+  font-size: 3.8rem;
+  font-weight: 700;
+  color: #c2185b;
+  margin-bottom: 80px;
+  letter-spacing: 1.5px;
+  text-shadow: 0 3px 12px rgba(194, 24, 91, 0.35);
+  background: linear-gradient(90deg, #c2185b, #e91e63, #c2185b);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-bottom: 70px;
-  letter-spacing: 2px;
-  text-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
-  animation: softGlow 3s infinite alternate;
+  animation: gentlePulse 5s infinite ease-in-out;
 }
 
-@keyframes softGlow {
-  0% { text-shadow: 0 4px 15px rgba(255, 105, 180, 0.4); }
-  100% { text-shadow: 0 6px 25px rgba(255, 215, 0, 0.6); }
+@keyframes gentlePulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.92; transform: scale(1.02); }
 }
 
+/* Seçim yazıları – premium stil */
 .icon p {
   font-family: 'Playfair Display', serif;
   font-size: 1.8rem;
